@@ -1,4 +1,4 @@
-"""Interpret free-text guesses using an optional OpenAI-compatible university LLM."""
+"""Interpret free-text guesses using  OpenAI-compatible university LLM."""
 
 import json
 import os
@@ -30,7 +30,7 @@ def local_intent(message):
     if not text:
         return {"kind": "unknown", "value": ""}
 
-    # Don't mistake a question about an animal category for a species guess.
+    # Don't confuse question about animal categories for guess regarding species
     for animal in sorted(ANIMALS, key=len, reverse=True):
         if re.fullmatch(r"(?:is it |could it be |is the animal |i guess |my guess is |maybe |a |an |the )*"
                         + re.escape(animal) + r"[?.! ]*", text):
@@ -140,6 +140,6 @@ def interpret(message, settings):
         if parsed and parsed["kind"] != "unknown":
             return parsed, "AI"
     except Exception:
-        # Bad network, quota, invalid model, malformed model output: game stays playable.
+        # Bad network/quota/invalid model/malformed model output still game stays playable.
         pass
     return fallback, "offline"
