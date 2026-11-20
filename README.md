@@ -22,11 +22,11 @@ UOS_BASE_URL = "base-url-from-portal"
 UOS_MODEL = "model-id-from-portal"
 ```
 
-Alternative: set the three corresponding environment variables. Do not include the real key in GitHub or the submission ZIP.
+
 
 **Design:** The LLM interprets what a question means. The answer itself is computed from a local animal fact bank. This prevents the language model from giving conflicting answers about the same animal. Questions the fact bank does not support get a helpful prompt to rephrase; unknown inputs do not spend a turn. If the model service is down, the app falls back to simple keyword rules so it remains playable. If the game is restarted mid-round after at least one turn, the unfinished game is recorded as given up. Games in progress are excluded from the stats.
 
-## Score explanation
+# Score explanation
 
 The game tracks a candidate list that is consistent with every answered question. For each valid turn:
 
@@ -36,30 +36,11 @@ For example, if 24 animals remain and your question reduces that to 12, the qual
 
 Stats use Streamlit session state: they are private to the browser session, but may disappear on refresh/reconnection/server restart. It is not a persistent database.
 
-## Test
+# Test
 
 ```bash
 python -m unittest discover -s tests -v
 python -m compileall -q .
 ```
 
-To test the full AI mode, configure a valid university key/base URL/model and manually try: "Does it usually hunt at night?", "Could this animal survive in the ocean?", "Is it a mammal?", and "I think the answer is a polar bear." AI mode requires external network connectivity and cannot be fully tested without valid credentials.
 
-## Deploy to Streamlit Community Cloud
-
-1. Create a GitHub repository and upload the files in this folder. Keep `app.py` in the repository root.
-2. At https://share.streamlit.io/ sign in, choose **Create app**, connect your repository, and select `app.py` as the main file.
-3. Add your three `UOS_*` settings in your app's **Secrets** settings (using the TOML lines above). Do not commit the secret file.
-4. Deploy, open the URL you receive, play a game, and check Stats. If your university API is inaccessible from the cloud, check the key/network policies and keep using the offline fallback until access is arranged.
-5. Hand in: **this source ZIP or GitHub URL**, **your actual public Streamlit app URL**, and the **Who did what?** section in `CONTRIBUTIONS.md` filled out honestly.
-
-## Project files
-
-- `app.py`: Streamlit navigation and common sidebar
-- `pages/play.py`: chat interface and round controls
-- `pages/stats.py`: summary, graphs, and explanation
-- `game.py`: animal facts, scoring, and session-independent game rules
-- `llm.py`: LLM interpreter with an offline fallback
-- `tests/test_game.py`: unit tests
-
-This project started from the minimal course template supplied with the assignment.
