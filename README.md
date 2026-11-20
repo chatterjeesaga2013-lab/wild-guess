@@ -42,5 +42,6 @@ Stats use Streamlit session state: they are private to the browser session, but 
 python -m unittest discover -s tests -v
 python -m compileall -q .
 ```
-
+Streamlit App URL:
+https://wild-guess-6cucxvwjmzn8zzz9fdwy6j.streamlit.app/
 
